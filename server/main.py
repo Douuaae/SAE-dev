@@ -15,6 +15,10 @@ from database import (
 from scheduler import start_scheduler
 from alerts import start_watchdog
 
+from fastapi import File, UploadFile
+import shutil
+import os
+
 app = FastAPI(title="SAÉ Diffusion Musicale", version="1.0.0")
 
 app.add_middleware(
@@ -163,3 +167,57 @@ def get_playlist():
 @app.get("/api/alertes")
 def get_alertes():
     return {"alertes": get_alertes_actives()}
+
+##playlist code
+@app.get("/api/playlist/{player_id}")
+def get_playlist_player(player_id: str):
+    """
+    Retourne la playlist pour un lecteur spécifique.
+    Utilisé par P2 pour récupérer la liste des morceaux à jouer.
+    """
+    playlist = get_latest_playlist()
+    if not playlist:
+        raise HTTPException(status_code=404, detail="Aucune playlist disponible")
+    
+    # Formate les fichiers dans le format attendu par P2
+    fichiers_formates = [
+        {"fichier": f, "type": "musique"}
+        for f in playlist["fichiers"]
+    ]
+    
+    return {
+        "player_id": player_id,
+        "version": playlist["version"],
+        "playlist": fichiers_formates
+    }
+
+@app.get("/ping")
+def ping():
+    return {"status": "ok", "message": "pong"}
+
+
+@app.post("/api/upload")
+async def upload_fichier(fichier: UploadFile = File(...)):
+    """
+    P2 envoie ses fichiers MP3 vers le serveur central.
+    Les fichiers sont stockés dans le dossier media/.
+    """
+    os.makedirs("media", exist_ok=True)
+    
+    chemin = f"media/{fichier.filename}"
+    with open(chemin, "wb") as f:
+        shutil.copyfileobj(fichier.file, f)
+    
+    return {
+        "ok": True,
+        "fichier": fichier.filename,
+        "chemin": chemin,
+        "taille": os.path.getsize(chemin)
+    }
+
+@app.get("/api/media")
+def list_media():
+    """Liste tous les fichiers audio disponibles sur le serveur."""
+    os.makedirs("media", exist_ok=True)
+    fichiers = os.listdir("media")
+    return {"fichiers": fichiers}
