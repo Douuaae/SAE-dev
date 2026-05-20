@@ -11,7 +11,7 @@ async def start_watchdog(manager):
     Vérifie que chaque lecteur a envoyé un heartbeat récent.
     Si non → passe en KO + crée une alerte + notifie le dashboard.
     """
-    print("🔍 Watchdog démarré")
+    print(" Watchdog démarré")
     while True:
         await asyncio.sleep(60)
         check_lecteurs(manager)
@@ -37,7 +37,7 @@ def check_lecteurs(manager):
             )
             creer_alerte(lecteur["id"], "lecteur_ko", message)
 
-            print(f"🚨 ALERTE : {message}")
+            print(f" ALERTE : {message}")
 
             # Notifie le dashboard (appel synchrone depuis un contexte async)
             asyncio.create_task(manager.broadcast({

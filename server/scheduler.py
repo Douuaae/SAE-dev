@@ -30,7 +30,7 @@ def diffuser_pub():
     for lecteur in lecteurs:
         if lecteur["statut"] == "UP":
             log_diffusion(lecteur["id"], "pub", spot)
-            print(f"📢 Pub diffusée sur {lecteur['nom']} : {spot} à {datetime.now().strftime('%H:%M')}")
+            print(f" Pub diffusée sur {lecteur['nom']} : {spot} à {datetime.now().strftime('%H:%M')}")
 
 def start_scheduler():
     """
@@ -47,5 +47,5 @@ def start_scheduler():
     # scheduler.add_job(diffuser_pub, "cron", hour="8-20", minute=0)
 
     scheduler.start()
-    print("⏰ Scheduler publicités démarré")
+    print(" Scheduler publicités démarré")
     print("   → Pub diffusée toutes les heures et demi-heures")

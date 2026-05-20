@@ -59,7 +59,7 @@ def init_db():
 
     conn.commit()
     conn.close()
-    print("✅ Base de données initialisée avec succès")
+    print(" Base de données initialisée avec succès")
 
 # --- Fonctions utilitaires pour les lecteurs ---
 
@@ -180,7 +180,7 @@ if __name__ == "__main__":
     creer_alerte("site3", "lecteur_ko", "Site distant 2 ne répond plus depuis 5 minutes")
     save_playlist("v1", ["chanson1.mp3", "chanson2.mp3", "chanson3.mp3"])
 
-    print("\n📋 Lecteurs :", get_all_lecteurs())
-    print("\n📜 Historique :", get_history())
-    print("\n🚨 Alertes :", get_alertes_actives())
-    print("\n🎵 Playlist :", get_latest_playlist())
+    print("\n Lecteurs :", get_all_lecteurs())
+    print("\n Historique :", get_history())
+    print("\n Alertes :", get_alertes_actives())
+    print("\n Playlist :", get_latest_playlist())
