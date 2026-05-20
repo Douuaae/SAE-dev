@@ -1,10 +1,10 @@
 # API du serveur SAÉ Diffusion Musicale
 
 ## URL de base
-http://10.44.25.102:8000
+http://192.168.1.42:8000     ← remplace par ta vraie IP
 
 ## Documentation interactive
-http://10.44.25.102:8000/docs
+http://192.168.1.42:8000/docs
 
 ---
 
@@ -96,7 +96,7 @@ Retourne la dernière version de la playlist.
 
 ---
 
-### WebSocket ws://10.44.25.102:8000/ws
+### WebSocket ws://192.168.1.42:8000/ws
 **Utilisé par : P3 (dashboard temps réel)**
 Reçoit les événements en temps réel :
 - type "heartbeat" → mise à jour état lecteur
